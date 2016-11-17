@@ -64,7 +64,7 @@ public class HUserDaoTest {
         updUser.setId(5L);
         updUser.setLogin("testUser_5");
         updUser.setPassword("passUp");
-        updUser.setEmail("emailUp");
+        updUser.setEmail("emailUp@up.ua");
         updUser.setFirstName("nameUp");
         updUser.setLastName("surnameUp");
         Date birthday = new GregorianCalendar(1999, Calendar.DECEMBER, 31).getTime();
