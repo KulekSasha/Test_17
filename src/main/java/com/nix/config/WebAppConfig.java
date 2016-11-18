@@ -28,7 +28,6 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
         configurer.enable();
     }
 
-
     @Bean
     public InternalResourceViewResolver jspViewResolver() {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -38,14 +37,12 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
         return viewResolver;
     }
 
-
     @Bean
     public MessageSource messageSource() {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.setBasename("messages");
-        messageSource.setCacheSeconds(0);
+        messageSource.setCacheSeconds(60);
         return messageSource;
     }
-
 
 }

@@ -26,10 +26,13 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
                                         Authentication auth) throws IOException, ServletException {
 
         if (auth.getAuthorities().contains(ADMIN)) {
+            log.trace("admin authenticated");
             response.sendRedirect(request.getContextPath() + "/admin/users");
         } else if (auth.getAuthorities().contains(USER)) {
+            log.trace("user authenticated");
             response.sendRedirect(request.getContextPath() + "/user/user");
         } else {
+            log.trace("wrong credential, forward to login page");
             response.sendRedirect(request.getContextPath() + "/login");
         }
     }

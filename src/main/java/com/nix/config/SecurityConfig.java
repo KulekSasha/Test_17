@@ -73,7 +73,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new AuthenticationSuccessHandlerImpl();
     }
 
-
     @Bean
     public ReCaptchaImpl reCaptcha() {
         ReCaptchaImpl reCaptcha = new ReCaptchaImpl();
