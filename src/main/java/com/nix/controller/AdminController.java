@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -27,6 +28,7 @@ import java.util.Date;
 public class AdminController {
 
     private static final Logger log = LoggerFactory.getLogger(AdminController.class);
+    private static final int DATE_LENGTH = 10;
 
     private UserService userService;
     private RoleService roleService;
@@ -41,11 +43,12 @@ public class AdminController {
         this.roleService = roleService;
     }
 
-
     @InitBinder
     public void bindingPreparation(WebDataBinder binder) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        CustomDateEditor birthdayEditor = new CustomDateEditor(dateFormat, true);
+        dateFormat.setLenient(false);
+
+        CustomDateEditor birthdayEditor = new CustomDateEditor(dateFormat, true, DATE_LENGTH);
         binder.registerCustomEditor(Date.class, "birthday", birthdayEditor);
         binder.registerCustomEditor(Role.class, "role", new RoleEditor(roleService));
     }
@@ -92,8 +95,10 @@ public class AdminController {
 
         validateConfirmPassword("editableUser", result, editableUser, passConfirm);
 
+        log.debug("adminSaveEditUser - ModelAttribute - editableUser: {}", editableUser);
+        log.debug("adminSaveEditUser - BindingResult - errors: {}", result);
+
         if (result.hasErrors()) {
-            modelAndView.addObject("editableUser", editableUser);
             modelAndView.addObject("errors", result);
             modelAndView.setViewName("admin/admin_edit");
             return modelAndView;
@@ -118,22 +123,26 @@ public class AdminController {
                                          @RequestParam("passConfirm") String passConfirm) {
 
         validateConfirmPassword("newUser", result, newUser, passConfirm);
+        if (userService.findByLogin(newUser.getLogin()) != null) {
+            FieldError loginUniqueError = new FieldError("newUser", "login",
+                    newUser.getLogin(), false, new String[]{"non.unique.login"},
+                    null, "not unique");
+            result.addError(loginUniqueError);
+        }
 
-        log.debug("newUs: {}", newUser);
-        log.debug("resultErr: {}", result);
+        log.debug("adminAddUserSave - ModelAttribute - newUser: {}", newUser);
+        log.debug("adminAddUserSave - BindingResult - errors: {}", result);
 
         if (result.hasErrors()) {
-            modelAndView.addObject("newUser", newUser);
             modelAndView.addObject("errors", result);
             modelAndView.setViewName("admin/admin_add");
             return modelAndView;
         }
 
-//        userService.create(newUser);
+        userService.create(newUser);
         modelAndView.setViewName("admin/admin");
         return modelAndView;
     }
-
 
     private void validateConfirmPassword(String objectName, BindingResult result,
                                          User user, String passConfirm) {

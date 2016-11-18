@@ -30,6 +30,7 @@ public class User {
     private long id;
 
     @Column(name = "LOGIN", unique = true)
+    @NotEmpty
     @NaturalId
     private String login;
 

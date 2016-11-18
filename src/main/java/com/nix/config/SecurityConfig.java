@@ -1,10 +1,13 @@
 package com.nix.config;
 
 import com.nix.security.AuthenticationSuccessHandlerImpl;
+import net.tanesha.recaptcha.ReCaptcha;
+import net.tanesha.recaptcha.ReCaptchaImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,6 +21,9 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    Environment env;
 
     @Autowired
     public void setUserDetailsService(@Qualifier("userDetailsService") UserDetailsService userDetailsService) {
@@ -35,7 +41,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // @formatter:off
         http
             .authorizeRequests()
-                .antMatchers("/resources/**", "/", "/login", "/logout").permitAll()
+                .antMatchers("/resources/**", "/", "/login", "/logout",
+                        "/registration/**").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/user/**").access("hasRole('ADMIN') or hasRole('USER')")
                 .anyRequest().authenticated()
@@ -64,5 +71,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public AuthenticationSuccessHandler authenticationSuccessHandler() {
         return new AuthenticationSuccessHandlerImpl();
+    }
+
+
+    @Bean
+    public ReCaptchaImpl reCaptcha() {
+        ReCaptchaImpl reCaptcha = new ReCaptchaImpl();
+        reCaptcha.setPrivateKey(env.getProperty("recaptcha.secret-key"));
+        reCaptcha.setPublicKey(env.getProperty("recaptcha.site-key"));
+        return reCaptcha;
     }
 }

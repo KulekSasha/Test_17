@@ -19,6 +19,9 @@
         body {
             padding-top: 70px;
         }
+        .btn-space {
+            margin-right: 10px;
+        }
     </style>
 
 </head>
@@ -38,7 +41,10 @@
                     <label for="pwd">Password:</label>
                     <input class="form-control" type="password" id="pwd" name="pwd"> <br>
                 </div>
-                <button type="submit" class="btn btn-default">Login</button>
+                <button type="submit" class="btn btn-default btn-space">Login</button>
+
+                <a href="${url}/registration/new" class="btn btn-default btn-space"
+                   role="button">Registration Form</a>
             </form>
             <c:if test="${param.error != null}">
                 <div class="alert alert-danger">

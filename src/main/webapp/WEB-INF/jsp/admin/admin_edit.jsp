@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -10,17 +11,13 @@
 <html>
 <head>
     <c:set var="url">${pageContext.request.contextPath}</c:set>
-
     <title>Admin edit</title>
-
     <link href="${url}/resources/css/bootstrap.min.css" rel="stylesheet">
-
     <style>
         body {
             padding-top: 70px;
         }
     </style>
-
 </head>
 <body>
 
@@ -39,9 +36,9 @@
 
             <form:form method="post" modelAttribute="editableUser" class="form-horizontal"
                        action="${url}/admin/users/${editableUser.login}/edit">
-            <div class="form-group">
-                <form:hidden path="id"/>
-            </div>
+                <div class="form-group">
+                    <form:hidden path="id"/>
+                </div>
 
                 <div class="form-group">
                     <label class="control-label col-lg-2" for="login">Login:</label>
@@ -91,7 +88,8 @@
                         <label class="control-label col-lg-2" for="firstName">First
                             name:</label>
                         <div class="col-lg-4">
-                            <form:input path="firstName" class="form-control"/>
+                            <form:input path="firstName" class="form-control"
+                                        placeholder="Name..."/>
                             <form:errors path="firstName" class="control-label"/>
                         </div>
                     </div>
@@ -101,7 +99,7 @@
                     <div class="form-group ${status.error ? 'has-error' : ''}">
                         <label class="control-label col-lg-2" for="lastName">Last name:</label>
                         <div class="col-lg-4">
-                            <form:input path="lastName" class="form-control"/>
+                            <form:input path="lastName" class="form-control" placeholder="Name..."/>
                             <form:errors path="lastName" class="control-label"/>
                         </div>
                     </div>
@@ -140,6 +138,7 @@
                     </div>
                 </div>
             </form:form>
+
         </div>
     </div>
 </div>
