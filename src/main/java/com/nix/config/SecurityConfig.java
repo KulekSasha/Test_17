@@ -1,7 +1,6 @@
 package com.nix.config;
 
 import com.nix.security.AuthenticationSuccessHandlerImpl;
-import net.tanesha.recaptcha.ReCaptcha;
 import net.tanesha.recaptcha.ReCaptchaImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

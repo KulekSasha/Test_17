@@ -5,6 +5,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.validation.Validator;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.validation.beanvalidation.OptionalValidatorFactoryBean;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -17,10 +20,12 @@ import org.springframework.web.servlet.view.JstlView;
 @ComponentScan({"com.nix.controller"})
 public class WebAppConfig extends WebMvcConfigurerAdapter {
 
+    private static final int SECONDS_IN_YEAR = 60 * 60 * 24 * 365;
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/")
-                .setCachePeriod(31556926);
+                .setCachePeriod(SECONDS_IN_YEAR);
     }
 
     @Override
@@ -45,4 +50,11 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
         return messageSource;
     }
 
+//    public LocalValidatorFactoryBean validatorFactoryBean() {
+//        LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
+//
+//        bean.
+//
+//        return bean;
+//    }
 }

@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Import;
         "com.nix.dao",
         "com.nix.tag",
         "com.nix.controller",
+        "com.nix.validator"
 })
 public class AppConfig {
 

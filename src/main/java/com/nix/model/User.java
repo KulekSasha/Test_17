@@ -1,5 +1,6 @@
 package com.nix.model;
 
+import com.nix.validator.constraint.UniqueLogin;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
@@ -32,6 +33,7 @@ public class User {
     @Column(name = "LOGIN", unique = true)
     @NotEmpty
     @NaturalId
+    @UniqueLogin
     private String login;
 
     @Column(name = "PASSWORD")
